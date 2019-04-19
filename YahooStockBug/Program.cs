@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace YahooStockBug
 {
@@ -18,7 +19,7 @@ namespace YahooStockBug
 
             using (StreamWriter sw = new StreamWriter("./page.html", false))
             {
-                 sw.Write(ans);
+                sw.Write(ans);
             }
             //string log =  st.analysisHtml(ans, @"/html/body/center/table/tr/td/table/tr"); //抓不到歐洲 但比較好看
             string log = st.analysisHtml(ans, @"/html/body/center/table/tr"); //抓的到歐洲
@@ -28,15 +29,51 @@ namespace YahooStockBug
             {
                 sw.Write(log);
             }
-            char[] charr = {'\n','\a' };
+            char[] charr = { '\n', '\a' };
 
-            string[] logArr = log.Split(charr,StringSplitOptions.RemoveEmptyEntries);
+            string[] logArr = log.Split(charr, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var tmp in logArr)
+            int i = 0;
+            foreach (var tmp in logArr)
             {
-                Console.WriteLine(tmp);
+                //Console.WriteLine(tmp);
+                if (new Regex(@"^&nbsp;").IsMatch(tmp))
+                {
+                    Console.Write(tmp);
+                    i = 0;
+                }
+                else if (new Regex(@"&nbsp;$").IsMatch(tmp))
+                {
+                    Console.WriteLine(tmp);
+                    i = 0;
+                }
+                else
+                {
+                    if (i == 5)
+                    {
+                        Console.Write(tmp + "\n\n");
+                        i = 0;
+                    }
+                    else
+                    {
+                        Console.Write(tmp);
+                        for (int j = 0; j < 20 - tmp.Length; j++)
+                        {
+                            Console.Write(" ");
+                        }
+                        i++;
+                    }
+                }
+
+
+
             }
             Console.ReadKey(true);
+        }
+
+        static void loop()
+        {
+
         }
     }
 }
