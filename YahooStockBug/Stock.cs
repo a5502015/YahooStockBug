@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Net.Http;
+using HtmlAgilityPack;
 
 namespace YahooStockBug
 {
@@ -47,6 +48,13 @@ namespace YahooStockBug
             }
 
             return html;
+        }
+        public string analysisHtml(string html)
+        {
+            string ans = "";
+
+
+            return ans;
         }
 
     }
