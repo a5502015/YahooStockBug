@@ -14,13 +14,20 @@ namespace YahooStockBug
             //string ans = await.getUrlResponAsync();
             string ans = await st.getUrlResponAsync();
 
-            Console.WriteLine(ans);
+            //Console.WriteLine(ans);
 
             using (StreamWriter sw = new StreamWriter("./page.html", false))
             {
                  sw.Write(ans);
             }
+            //string log =  st.analysisHtml(ans, @"/html/body/center/table/tr/td/table/tr"); //抓不到歐洲 但比較好看
+            string log = st.analysisHtml(ans, @"/html/body/center/table/tr/td"); //抓的到歐洲
 
+            using (StreamWriter sw = new StreamWriter("./log2.txt", false))
+            //using (StreamWriter sw = new StreamWriter("./log.txt", false))
+            {
+                sw.Write(log);
+            }
             Console.ReadKey(true);
         }
     }
