@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace YahooStockBug
 {
@@ -57,10 +58,11 @@ namespace YahooStockBug
                     else
                     {
                         Console.Write(tmp);
-                        for (int j = 0; j < 20 - tmp.Length; j++)
+                        for (int j = 0; j < 22 - Encoding.Default.GetByteCount(tmp); j++)
                         {
                             Console.Write(" ");
                         }
+                        
                         i++;
                     }
                 }
