@@ -14,7 +14,8 @@ namespace YahooStockBug
         private string url;
         public Stock(string link)
         {
-            string rule = @"/^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/";
+            string rule2 = @"(https?:\/\/[\w-\.]+(:\d+)?(\/[~\w\/\.]*)?(\?\S*)?(#\S*)?)";
+            string rule = @"^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$";
             if (new Regex(rule).IsMatch(link))
             {
                 url = link;
@@ -62,7 +63,7 @@ namespace YahooStockBug
 
             foreach (HtmlNode node in nodes)
             {
-                Console.WriteLine(node.InnerText.Trim());
+                //Console.WriteLine(node.InnerText.Trim());
                 ans += node.InnerText;
                 //ans += "---------------------------\n";
 
