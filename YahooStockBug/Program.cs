@@ -34,7 +34,13 @@ namespace YahooStockBug
             char[] charr = { '\n', '\a' };
 
             string[] logArr = log.Split(charr, StringSplitOptions.RemoveEmptyEntries);
-
+            using (StreamWriter sw = new StreamWriter("./rawData.txt",false))
+            {
+                foreach(string tmp in logArr)
+                {
+                    sw.WriteLine(tmp);
+                }
+            }
             int i = 0;
             using (StreamWriter sw = new StreamWriter("./outpute.txt", false))
             {
