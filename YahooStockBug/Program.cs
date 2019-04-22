@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace YahooStockBug
 {
@@ -18,58 +18,68 @@ namespace YahooStockBug
 
             //Console.WriteLine(ans);
 
-            using (StreamWriter sw = new StreamWriter("./page.html", false))
-            {
-                sw.Write(ans);
-            }
+            //using (StreamWriter sw = new StreamWriter("./page.html", false))
+            //{
+            //    sw.Write(ans);
+            //}
+
             //string log =  st.analysisHtml(ans, @"/html/body/center/table/tr/td/table/tr"); //抓不到歐洲 但比較好看
             string log = st.analysisHtml(ans, @"/html/body/center/table/tr"); //抓的到歐洲
 
-            using (StreamWriter sw = new StreamWriter("./log2.txt", false))
-            //using (StreamWriter sw = new StreamWriter("./log.txt", false))
-            {
-                sw.Write(log);
-            }
+            //using (StreamWriter sw = new StreamWriter("./log2.txt", false))
+            ////using (StreamWriter sw = new StreamWriter("./log.txt", false))
+            //{
+            //    sw.Write(log);
+            //}
             char[] charr = { '\n', '\a' };
 
             string[] logArr = log.Split(charr, StringSplitOptions.RemoveEmptyEntries);
 
             int i = 0;
-            foreach (var tmp in logArr)
+            using (StreamWriter sw = new StreamWriter("./outpute.txt", false))
             {
-                //Console.WriteLine(tmp);
-                if (new Regex(@"^&nbsp;").IsMatch(tmp))
+                foreach (var tmp in logArr)
                 {
-                    Console.Write(tmp);
-                    i = 0;
-                }
-                else if (new Regex(@"&nbsp;$").IsMatch(tmp))
-                {
-                    Console.WriteLine(tmp);
-                    i = 0;
-                }
-                else
-                {
-                    if (i == 5)
+                    //Console.WriteLine(tmp);
+                    if (new Regex(@"^&nbsp;").IsMatch(tmp))
                     {
-                        Console.Write(tmp + "\n\n");
+                        sw.Write(tmp);
+                        Console.Write(tmp);
+                        i = 0;
+                    }
+                    else if (new Regex(@"&nbsp;$").IsMatch(tmp))
+                    {
+                        sw.WriteLine(tmp);
+                        Console.WriteLine(tmp);
                         i = 0;
                     }
                     else
                     {
-                        Console.Write(tmp);
-                        for (int j = 0; j < 22 - Encoding.Default.GetByteCount(tmp); j++)
+                        if (i == 5)
                         {
-                            Console.Write(" ");
+                            sw.Write(tmp + "\n\n");
+                            Console.Write(tmp + "\n\n");
+                            i = 0;
                         }
-                        
-                        i++;
+                        else
+                        {
+                            sw.Write(tmp);
+                            Console.Write(tmp);
+                            for (int j = 0; j < 22 - Encoding.Default.GetByteCount(tmp); j++)
+                            {
+                                sw.Write(" ");
+                                Console.Write(" ");
+                            }
+
+                            i++;
+                        }
                     }
+
+
+
                 }
-
-
-
             }
+
             Console.ReadKey(true);
         }
 
