@@ -40,6 +40,7 @@ namespace YahooStockBug
             {
                 foreach (var tmp in logArr)
                 {
+                    string tmp2 = tmp;
                     //Console.WriteLine(tmp);
                     if (new Regex(@"^&nbsp;").IsMatch(tmp))
                     {
@@ -55,17 +56,24 @@ namespace YahooStockBug
                     }
                     else
                     {
+                        
+                        if (tmp.IndexOf("台灣時間")!= -1)
+                        {
+                            tmp2 = tmp.Replace("台灣時間","GMT+8");
+                        }
+                        
+
                         if (i == 5)
                         {
-                            sw.Write(tmp + "\n\n");
-                            Console.Write(tmp + "\n\n");
+                            sw.Write(tmp2 + "\n\n");
+                            Console.Write(tmp2 + "\n\n");
                             i = 0;
                         }
                         else
                         {
-                            sw.Write(tmp);
-                            Console.Write(tmp);
-                            for (int j = 0; j < 22 - Encoding.Default.GetByteCount(tmp); j++)
+                            sw.Write(tmp2);
+                            Console.Write(tmp2);
+                            for (int j = 0; j < 22 - Encoding.Default.GetByteCount(tmp2); j++)
                             {
                                 sw.Write(" ");
                                 Console.Write(" ");
