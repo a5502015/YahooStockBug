@@ -34,9 +34,9 @@ namespace YahooStockBug
             char[] charr = { '\n', '\a' };
 
             string[] logArr = log.Split(charr, StringSplitOptions.RemoveEmptyEntries);
-            using (StreamWriter sw = new StreamWriter("./rawData.txt",false))
+            using (StreamWriter sw = new StreamWriter("./rawData.txt", false))
             {
-                foreach(string tmp in logArr)
+                foreach (string tmp in logArr)
                 {
                     sw.WriteLine(tmp);
                 }
@@ -48,26 +48,30 @@ namespace YahooStockBug
                 {
                     string tmp2 = tmp;
                     //Console.WriteLine(tmp);
-                    if (new Regex(@"^&nbsp;").IsMatch(tmp))
+
+                    if (tmp.IndexOf(@"&nbsp;") != -1)
                     {
-                        sw.Write(tmp);
-                        Console.Write(tmp);
-                        i = 0;
-                    }
-                    else if (new Regex(@"&nbsp;$").IsMatch(tmp))
-                    {
-                        sw.WriteLine(tmp);
-                        Console.WriteLine(tmp);
-                        i = 0;
+                        if (new Regex(@"^&nbsp;").IsMatch(tmp))
+                        {
+                            sw.Write(tmp);
+                            Console.Write(tmp);
+                            i = 0;
+                        }
+                        else if (new Regex(@"&nbsp;$").IsMatch(tmp))
+                        {
+                            sw.WriteLine(tmp);
+                            Console.WriteLine(tmp);
+                            i = 0;
+                        }
                     }
                     else
                     {
-                        
-                        if (tmp.IndexOf("台灣時間")!= -1)
+
+                        if (tmp.IndexOf("台灣時間") != -1)
                         {
-                            tmp2 = tmp.Replace("台灣時間","GMT+8");
+                            tmp2 = tmp.Replace("台灣時間", "GMT+8");
                         }
-                        
+
 
                         if (i == 5)
                         {
